@@ -1,0 +1,55 @@
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+$browser-default-font-size: 75px !default;
+
+@mixin px2rem($property, $values...) {
+  $max: length($values); //返回$values列表的长度值
+  $pxValues: '';
+  $remValues: '';
+  @for $i from 1 through $max {
+    $value: strip-units(nth($values, $i)); //返回$values列表中的第$i个值，并将单位值去掉
+    $browser-default-font-size: strip-units($browser-default-font-size);
+    $pxValues: #{$pxValues + $value}px;
+    @if $i < $max {
+      $pxValues: #{$pxValues + " "};
+    }
+  }
+  @for $i from 1 through $max {
+    $value: strip-units(nth($values, $i));
+    $browser-default-font-size: strip-units($browser-default-font-size);
+    $remValues: #{$remValues + $value/$browser-default-font-size * 1rem};
+    @if $i < $max {
+      $remValues: #{$remValues + " "};
+    }
+  }
+  #{$property}: $remValues;
+}
+
+@mixin font-dpr($font-size) {
+  font-size: #{$font-size}px;
+  [data-dpr="2"] & {
+    font-size: #{$font-size * 2}px;
+  }
+  [data-dpr="3"] & {
+    font-size: #{$font-size * 3}px;
+  }
+}
+
+.border-1px {
+  position: relative;
+  &:after{
+    position: absolute;
+    content: "";
+    height: 1px;
+    background: #dbdbdb;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    -webkit-transform: scaleY(.5);
+    -ms-transform: scaleY(.5);
+    -o-transform: scaleY(.5);
+    transform: scaleY(.5);
+  }
+}
