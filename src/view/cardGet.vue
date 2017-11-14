@@ -8,12 +8,22 @@
       </div>
       <div class="info-item border-1px">
         <span>性别</span>
-        <input type="text" placeholder="请选择性别" @click="choose">
+        <input type="text" placeholder="请选择性别" @click="choose" v-model="sex">
       </div>
       <div class="info-item border-1px">
         <span>生日</span>
-        <popup-picker v-if="dateShow" :data="date" v-model="dateValue" :columns="2"></popup-picker>
+        <x-button v-bind:class="{active: dateValueFlag}" @click.native="showPopupPicker = true" type="primary">
+          {{dateValue[0] + dateValue[1] }}
+        </x-button>
       </div>
+      <!--<group>-->
+      <!--<popup-picker :show.sync="showPopupPicker" :show-cell="false" title="TEST" :data="[['1', '2', '3', '4', '5']]"-->
+      <!--v-model="value5"></popup-picker>-->
+      <!--</group>-->
+      <group>
+        <popup-picker v-if="dateShow" :data="date" v-model="dateValue" :columns="2" :show.sync="showPopupPicker"
+                      :title="birthdayTitle" :show-cell="false"></popup-picker>
+      </group>
       <div class="info-item border-1px">
         <span>手机号</span>
         <input type="text" placeholder="请填写正确的手机号">
@@ -32,12 +42,14 @@
 </template>
 
 <script>
-  import {Actionsheet, PopupPicker} from 'vux'
+  import {Actionsheet, PopupPicker, Group, XButton} from 'vux'
 
   export default {
     components: {
       Actionsheet,
-      PopupPicker
+      PopupPicker,
+      XButton,
+      Group
     },
     data: function () {
       return {
@@ -49,15 +61,27 @@
         },
         date: [],
         dateShow: true,
-        dateValue: []
+        birthdayTitle: '请选择您的生日',
+        dateValue: ['请选择您的生日', ''],
+        dateValueFlag: false,
+        showPopupPicker: false,
+        value5: ['2']
+      }
+    },
+    watch: {
+      dateValue: function (newVal, oldVal) {
+        this.dateValueFlag = true
       }
     },
     methods: {
       chooseSex: function (key) {
-        console.log(key)
+        if (key === 'male') {
+          this.sex = '男'
+        } else {
+          this.sex = '女'
+        }
       },
       choose: function () {
-        console.log(this.sexShow)
         this.sexShow = true
       },
       birthday: function () {
@@ -73,37 +97,38 @@
       for (let i = 1; i <= 12; i++) {
         this.date.push({
           name: '' + i + '月',
-          value: 'month' + i,
+          value: i + '月',
           parent: 0
         })
         if (longMonth.indexOf(i) > -1) {
           for (let j = 1; j <= 31; j++) {
             this.date.push({
-              name: j,
-              value: 'day' + j,
-              parent: 'month' + i
+              name: j + '日',
+              value: j + '日',
+              parent: i + '月'
             })
           }
         }
         if (shortMonth.indexOf(i) > -1) {
           for (let j = 1; j <= 30; j++) {
             this.date.push({
-              name: j,
-              value: 'day' + j,
-              parent: 'month' + i
+              name: j + '日',
+              value: j + '日',
+              parent: i + '月'
             })
           }
         }
         if (i === 2) {
           for (let j = 1; j <= 29; j++) {
             this.date.push({
-              name: j,
-              value: 'day' + j,
-              parent: 'month' + i
+              name: j + '日',
+              value: j + '日',
+              parent: i + '月'
             })
           }
         }
       }
+//      this.$watch()
 //      this.date = JSON.stringify(this.date)
 //      this.date = JSON.parse(this.date)
     }
@@ -112,6 +137,44 @@
 
 <style lang="scss" type="text/scss">
   @import '../common/sass/base.scss';
+
+  button:active {
+
+  }
+
+  .weui-cell {
+    padding: 0 !important;
+  }
+
+  .vux-no-group-title {
+    margin-top: 0 !important;
+  }
+
+  .info-item {
+    .weui-btn {
+      @include font-dpr(14);
+      color: #b2b2b2;
+      background-color: #fff !important;
+      text-align: left;
+      @include px2rem(padding-left, 40);
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .weui-btn_primary:active {
+    background: #fff;
+    color: #b2b2b2 !important;
+  }
+
+  .vux-popup-header-right {
+    color: #ff4a83 !important;
+  }
+
+  .vux-cell-box:before {
+    display: none;
+  }
 
   .content {
     width: 100%;
@@ -126,6 +189,10 @@
     @include px2rem(padding-left, 30);
     @include font-dpr(12);
     color: #888;
+  }
+
+  .active {
+    color: #333 !important;
   }
 
   .info {
@@ -190,8 +257,9 @@
       @include font-dpr(18);
     }
   }
-  .vux-popup-header{
-    .vux-popup-header-right{
+
+  .vux-popup-header {
+    .vux-popup-header-right {
       padding-right: 15px;
     }
   }

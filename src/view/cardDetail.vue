@@ -3,10 +3,10 @@
 
 <script>
   export default {
-    data () {
+    data: function () {
     },
     methods: {},
-    created () {
+    created: function () {
     }
   }
 </script>
