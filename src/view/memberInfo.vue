@@ -27,21 +27,21 @@
     </div>
     <div class="qqs-myvip-page">
       <div class="vip-tab-menu border-1px">
-        <a class="tab-item border-1px">
+        <a class="tab-item border-1px" @click="myOrder">
           <div class="item-key"><i class="icon-item icon-order"></i>预约订单</div>
           <div class="item-tip-info"></div>
         </a>
-        <a class="tab-item border-1px">
+        <a class="tab-item border-1px" @click="expenseRecord">
           <div class="item-key"><i class="icon-item icon-consume"></i>消费记录</div>
           <div class="item-tip-info"></div>
         </a>
-        <a class="tab-item">
+        <a class="tab-item" @click="serveRecord">
           <div class="item-key"><i class="icon-item icon-service"></i>服务记录</div>
           <div class="item-tip-info"></div>
         </a>
       </div>
       <div class="vip-tab-menu border-1px">
-        <a class="tab-item border-1px">
+        <a class="tab-item border-1px" @click="cardList">
           <div class="item-key"><i class="icon-item icon-intro"></i>会员卡说明</div>
           <div class="item-tip-info"></div>
         </a>
@@ -55,11 +55,32 @@
 </template>
 
 <script>
+  const _openId = 'opeN1wzFSSvEOUDFQjOZ0QBJw2QE'
+
   export default {
     data: function () {
       return {}
     },
-    methods: {},
+    methods: {
+      myOrder: function () {
+        window.location.href = 'http://cs1.gzqqs.com/qqs/jsp/weixin/appointment/myOrder.html?openId=' + _openId
+      },
+      cardList: function () {
+        this.$router.push({
+          name: 'cardList'
+        })
+      },
+      expenseRecord: function () {
+        this.$router.push({
+          name: 'expenseRecord'
+        })
+      },
+      serveRecord: function () {
+        this.$router.push({
+          name: 'serveRecord'
+        })
+      }
+    },
     created: function () {
     }
   }

@@ -14,6 +14,6 @@
   @import './common/sass/reset.scss';
 
   body {
-    background-color: #fbf9fe;
+    background-color: #f3f5f7;
   }
 </style>
