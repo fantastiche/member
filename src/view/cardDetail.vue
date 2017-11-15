@@ -128,11 +128,6 @@
 
   export default {
     data: function () {
-<<<<<<< HEAD
-    },
-    methods: {},
-    created: function () {
-=======
       return {
         card: {}
       }
@@ -143,7 +138,6 @@
         let index = parseInt(this.$route.params.type) - 1
         this.card = typeDetail[index]
       }
->>>>>>> feature-work
     }
   }
 </script>

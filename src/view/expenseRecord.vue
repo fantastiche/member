@@ -19,12 +19,8 @@
 </template>
 
 <script>
-  import {
-    keyGet,
-    _TEST_INTER,
-//    _openId,
-    TS
-  } from '../store/base.js'
+  import {structureKey, TS} from '../util/util'
+  import {expenseRecordHttp} from '../models/common-model'
 
   export default {
     data: function () {
@@ -34,7 +30,8 @@
     },
     methods: {},
     created: function () {
-      let key = keyGet('B00001' + '369403' + 'F0291B40-1B43-4360-A5A7-EBC76CE80680' + TS + '/appmember/getExpenseRecord.do')
+      let that = this
+      let key = structureKey('B00001' + '369403' + 'F0291B40-1B43-4360-A5A7-EBC76CE80680' + TS + '/appmember/getExpenseRecord.do')
       let params = {
         PAGE: 1,
         SHOPCODE: 'B00001',
@@ -43,10 +40,9 @@
         TS: TS,
         KEY: key
       }
-      let that = this
-      this.$http.get(_TEST_INTER + 'qqs/appmember/getExpenseRecord.do', {params: params}).then(function (res) {
+      expenseRecordHttp(params, function (res) {
         that.list = res.data.pd
-        console.log(that.list)
+      }, function () {
       })
     }
   }

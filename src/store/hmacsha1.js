@@ -39,7 +39,7 @@
  * @param {string} d Data to be hashed.
  * @return {string} The hashed string.
  */
-function b64_hmac_sha1(k, d, _p, _z) {
+function b64Hmacsha1(k, d, _p, _z) {
   // heavily optimized and compressed version of http://pajhome.org.uk/crypt/md5/sha1.js
   // _p = b64pad, _z = character size; not used here but I left them available just in case
   if (!_p) {
@@ -162,5 +162,5 @@ function b64_hmac_sha1(k, d, _p, _z) {
 
 export
 {
-  b64_hmac_sha1
+  b64Hmacsha1
 }
